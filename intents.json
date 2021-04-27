@@ -1,0 +1,25 @@
+{"intents": [
+    {"tag": "apresentacao",
+    "patterns": ["oi", "ola", "eae"],
+    "responses": ["Oi! Seja bem-vindo! Para começarmos, preciso de algumas informações suas, pode me informar seu nome?"]},
+
+    {"tag": "nome",
+    "patterns": ["Joao", "Maria", "Eduardo", "Lucas", "Tatiane", "Miller"],
+    "responses": ["Ótimo! Qual seu sexo?"]},
+
+    {"tag": "sexo",
+    "patterns": ["Masculino", "Feminino"],
+    "responses": ["Ok! Qual sua idade?"]},
+    
+    {"tag": "idade",
+    "patterns": ["25", "24", "70"],
+    "responses": ["Pode nos contar um pouco mais sobre você? Possui alguma doença crônica, alergia ou histórico de cirurgias?"]},
+
+    {"tag": "hist",
+    "patterns": ["Não", "Possuo diabetes", "Operei o joelho", "Tenho alergia a gluten"],
+    "responses": ["Quais sintomas você possui?"]},
+
+    {"tag": "sintoma",
+    "patterns": ["Espirro", "Tosse", "Febre", "Falta de ar", "Dores no corpo"],
+    "responses": ["Estou procurando o especialista que possa melhor te atender"]}
+]}
