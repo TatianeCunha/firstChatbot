@@ -1,13 +1,30 @@
+CREATE TABLE sexo (
+ id INTEGER NOT NULL,
+ sexo VARCHAR(32) NOT NULL,
+
+ constraint pk_sexo PRIMARY KEY(id)
+);
+
+Insert into sexo values (1,'feminino' );
+Insert into sexo values (2,'masculino' );
+
+
+
+
+
 CREATE TABLE paciente (
  id INTEGER NOT NULL,
  nome VARCHAR(255) NOT NULL,
  idade INTEGER NOT NULL,
- sexo VARCHAR(255) NOT NULL,
+ sexo INTEGER NOT NULL,
  doencaCronica VARCHAR(255) NOT NULL,
  alergia VARCHAR(255) NOT NULL,
  cirurgia VARCHAR(255) NOT NULL,
+ sintomaCovid VARCHAR(1) NULL,
+ grupoRisco VARCHAR(1) NULL,
 
- constraint pk_paciente PRIMARY KEY(id)
+ constraint pk_paciente PRIMARY KEY(id),
+ constraint FK_sexo FOREIGN KEY(sexo) REFERENCES sexo(id)
 );
 
 CREATE SEQUENCE seq_paciente
@@ -19,7 +36,10 @@ CREATE SEQUENCE seq_paciente
  NO CYCLE
  OWNED BY paciente.id;
 
- ----------------------------------------------
+ 
+
+
+
 
 CREATE TABLE lista_sintomas (
  id INTEGER NOT NULL,
@@ -49,7 +69,10 @@ Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'dificuldade pa
 Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'perda do paladar' );
 Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'perda do olfato' );
  
- ----------------------------------------------
+ 
+
+
+
 
  CREATE TABLE sintomas (
  id INTEGER NOT NULL,
@@ -68,3 +91,57 @@ CREATE SEQUENCE seq_sintoma
  START WITH 1
  NO CYCLE
  OWNED BY sintomas.id;
+
+
+
+
+
+
+ CREATE TABLE grupo_lista (
+ id INTEGER NOT NULL,
+ grupo  VARCHAR(255) NOT NULL,
+
+ constraint pk_grupo_lista PRIMARY KEY(id)
+);
+
+CREATE SEQUENCE seq_grupo_lista
+ AS INT
+ INCREMENT BY 1
+ MINVALUE 1
+ NO MAXVALUE
+ START WITH 1
+ NO CYCLE
+ OWNED BY grupo_lista.id;
+
+Insert into grupo_lista values (nextval('seq_grupo_lista'),'hipertensao' );
+Insert into grupo_lista values (nextval('seq_grupo_lista'),'asma' );
+Insert into grupo_lista values (nextval('seq_grupo_lista'),'diabetes' );
+Insert into grupo_lista values (nextval('seq_grupo_lista'),'fumantes' );
+Insert into grupo_lista values (nextval('seq_grupo_lista'),'obesidade' );
+Insert into grupo_lista values (nextval('seq_grupo_lista'),'doenca renal cronica' );
+Insert into grupo_lista values (nextval('seq_grupo_lista'),'doenca pulmonar' );
+Insert into grupo_lista values (nextval('seq_grupo_lista'),'cardiopatia' );
+Insert into grupo_lista values (nextval('seq_grupo_lista'),'Gestante ou lactante' );
+Insert into grupo_lista values (nextval('seq_grupo_lista'),'Fumante' );
+
+
+
+
+
+ CREATE TABLE grupo (
+ id INTEGER NOT NULL,
+ paciente INTEGER NOT NULL,
+ grupo INTEGER NOT NULL,
+ constraint pk_grupo PRIMARY KEY(id),
+ constraint FK_paciente FOREIGN KEY(paciente) REFERENCES paciente(id),
+ constraint FK_grupo FOREIGN KEY(grupo) REFERENCES grupo_lista(id)
+);
+
+CREATE SEQUENCE seq_grupo
+ AS INT
+ INCREMENT BY 1
+ MINVALUE 1
+ NO MAXVALUE
+ START WITH 1
+ NO CYCLE
+ OWNED BY grupo.id;
