@@ -7,7 +7,18 @@ def validaIdade(idade):
 			return True
 
 def validaSexo(sexo): 
-	if sexo != 'FEMININO' or sexo != 'MASCULINO':
-		#TODO
-		print("Insira Feminino ou Masculino")
-		sexo=input()
+	while sexo != 1 and sexo != 2:
+		print("Insira um valor válido")
+		sexo=int(input())
+
+
+def validaCronica(doencaCronica):
+	doencasCronicas = []
+	doencaCronica=input()
+	doencasCronicas.append(doencaCronica)
+	while doencaCronica != '0':
+		doencasCronicas.append(doencaCronica)
+		doencaCronica = input("Algo mais? ")
+		grupoRisco = True
+		if doencaCronica == '0': 
+			break
