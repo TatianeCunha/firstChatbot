@@ -1,48 +1,26 @@
 import mysql.connector
 import psycopg2
 import validateData
-
-#connection to the database
-mydb = psycopg2.connect(
-    host="tuffi.db.elephantsql.com",
-    database="uevnqhtj",
-    user="uevnqhtj",
-    password="RqAmmvdUX0q2vR_cJh9pnQ9uAkfLW213",
-    port='5432')
-
-cursor = mydb.cursor()
+from validateData import validaIdade, validaSexo
+from database import insertPaciente, insertSintoma
 
 #chatbot
-
-grupoRisco = False
-
 print("Chatbot: Oi! Seja bem-vindo! Para começarmos, preciso de algumas informações suas.")
 print("Chatbot: Pode me informar seu nome?")
-nome = input()
+nome = input().upper()
 
 print("Chatbot: Certo, e qual a sua idade?")
 idade=int(input())
-if idade > 115 or idade < 0:
-    while idade > 115 or idade < 0:
-        print("Insira um valor válido")
-        idade=int(input())
-if idade > 65:
-    grupoRisco = True
-
 
 #Idade > 65  ---> risco
+grupoRisco= validaIdade(idade)
 
 print("Chatbot: Qual o seu sexo? Feminino ou masculino?")
-sexo=input()
-if sexo != "Feminino" or sexo != "Masculino":
-     while idade > 115:
-        print("Insira um valor válido")
-        idade=int(input())
+sexo=input().upper
+validaSexo(sexo)
 
 print("Chatbot: Pode nos contar um pouco mais sobre você? Possui alguma doença crônica?")
 doencaCronica=input()
-
-#doença cronica ---> risco
 
 print("Chatbot: Possui alguma alergia?")
 alergia=input()
@@ -50,22 +28,38 @@ alergia=input()
 print("Chatbot: e histórico de cirurgias?")
 cirurgia=input()
 
-#verificar se é pessoa de risco
-#se maior de certa idade
-#instanciar variavel grupo de risco=0
-#se possui alguma das situações previstas
+#insert paciente into database
+pacienteID=insertPaciente (nome, str(idade), sexo, doencaCronica, alergia, cirurgia)
+
+print("Chatbot: Você está apresentando algum dos seguintes sintomas:",
+    "1-Fadiga",
+    "2-Dor de cabeça",
+    "3-Tosse",
+    "4-Febre",
+    "5-Dor de garganta",
+    "6-Náusea",
+    "7-Vômito"
+    "8-Dor no peito",
+    "9-Diarreia",
+    "10-Dificuldade para respirar",
+    "11-Perda do paladar",
+    "12-Perda do olfato"
+    "0-Encerrar",
+    )
+
+#print("Chatbot: Estou procurando o especialista que possa melhor te atender")
+
+sintoma=int(input())
+
+cont=0
+while sintoma!=0:
+    insertSintoma (pacienteID, sintoma)
+    sintoma=int(input())
+    cont=cont+1
+    if sintoma==10: print("Numa escala de 0 a 10, qual o nível da sua dificuldade de respirar?")
+    dificuldadeRespiratoria=int(input())
 
 
-print("Chatbot: Estou procurando o especialista que possa melhor te atender")
-
-
-cursor.execute("insert into paciente values (nextval('seq_paciente'), '"
-    +nome+"','"
-    +idade+"','"    
-    +sexo+"','"
-    +doencaCronica+"','"
-    +alergia+"','"
-    +cirurgia+ "')")
-mydb.commit()
-
-print(cursor.rowcount, "was inserted.")
+if cont>5 or dificuldadeRespiratoria != None : 
+    print("Você apresenta um quadro suspeito de COVID-19. Aguarde no chat até que o médico possa te atender.")
+    suspeitaCovid='S'

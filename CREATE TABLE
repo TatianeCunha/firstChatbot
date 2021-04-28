@@ -1,0 +1,70 @@
+CREATE TABLE paciente (
+ id INTEGER NOT NULL,
+ nome VARCHAR(255) NOT NULL,
+ idade INTEGER NOT NULL,
+ sexo VARCHAR(255) NOT NULL,
+ doencaCronica VARCHAR(255) NOT NULL,
+ alergia VARCHAR(255) NOT NULL,
+ cirurgia VARCHAR(255) NOT NULL,
+
+ constraint pk_paciente PRIMARY KEY(id)
+);
+
+CREATE SEQUENCE seq_paciente
+ AS INT
+ INCREMENT BY 1
+ MINVALUE 1
+ NO MAXVALUE
+ START WITH 1
+ NO CYCLE
+ OWNED BY paciente.id;
+
+ ----------------------------------------------
+
+CREATE TABLE lista_sintomas (
+ id INTEGER NOT NULL,
+ nome VARCHAR(255) NOT NULL,
+ constraint pk_lista_sintomas PRIMARY KEY(id)
+);
+
+CREATE SEQUENCE seq_lista_sintomas
+ AS INT
+ INCREMENT BY 1
+ MINVALUE 1
+ NO MAXVALUE
+ START WITH 1
+ NO CYCLE
+ OWNED BY lista_sintomas.id;
+
+Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'fadiga' );
+Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'dor de cabeca' );
+Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'tosse' );
+Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'febre' );
+Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'dor de garganta' );
+Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'nausea' );
+Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'vomito' );
+Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'dor no peito' );
+Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'diarreia' );
+Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'dificuldade para respirar' );
+Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'perda do paladar' );
+Insert into lista_sintomas values (nextval('seq_lista_sintomas'),'perda do olfato' );
+ 
+ ----------------------------------------------
+
+ CREATE TABLE sintomas (
+ id INTEGER NOT NULL,
+ paciente INTEGER NOT NULL,
+ sintoma INTEGER NOT NULL,
+ constraint pk_sintoma PRIMARY KEY(id),
+ constraint FK_paciente FOREIGN KEY(paciente) REFERENCES paciente(id),
+ constraint FK_sintoma FOREIGN KEY(sintoma) REFERENCES lista_sintomas(id)
+);
+
+CREATE SEQUENCE seq_sintoma
+ AS INT
+ INCREMENT BY 1
+ MINVALUE 1
+ NO MAXVALUE
+ START WITH 1
+ NO CYCLE
+ OWNED BY sintomas.id;
