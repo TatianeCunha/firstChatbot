@@ -53,6 +53,8 @@ def receive():
         thread = threading.Thread(target=handle, args =(client,))
         thread.start()
 
+        message = "mensagem"
+
 #Handle
 
 print("Servidor rodando...")
