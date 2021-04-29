@@ -1,5 +1,3 @@
-import mysql.connector
-import psycopg2
 import validateData
 from validateData import validaIdade, validaSexo, validaCronica
 from database import insertPaciente, insertSintoma
@@ -38,7 +36,6 @@ print("""Chatbot: Pode nos contar um pouco mais sobre você? Você pode ser inse
 	7 - Doença pulmonar
 	8 - Cardiopatia
 	9 - Gestante ou lactante
-	10 - Fumante
 	0 - Nenhum/ Encerrar""")
 doencasCronicas = []
 doencaCronica=input()
@@ -70,13 +67,16 @@ cont=0
 while sintoma!=0:
     insertSintoma (pacienteID, sintoma)
     if sintoma==10: 
-        print("Numa escala de 0 a 10, qual o nível da sua dificuldade de respirar?")
+        print("Chatbot: Numa escala de 0 a 10, qual o nível da sua dificuldade de respirar?")
         dificuldadeRespiratoria=int(input())
+        print("Chatbot: Você está apresentando mais algum sintoma?")
+        sintoma=int(input())
     else :
+        print("Chatbot: Você está apresentando mais algum sintoma?")
         sintoma=int(input())
     cont=cont+1
     
-if cont>5 and dificuldadeRespiratoria != None : 
+if cont>=5 or dificuldadeRespiratoria>0 : 
     print("Você apresenta um quadro suspeito de COVID-19. Aguarde no chat até que o médico possa te atender.")
     suspeitaCovid='S'
 else:

@@ -123,8 +123,6 @@ Insert into grupo_lista values (nextval('seq_grupo_lista'),'doenca renal cronica
 Insert into grupo_lista values (nextval('seq_grupo_lista'),'doenca pulmonar' );
 Insert into grupo_lista values (nextval('seq_grupo_lista'),'cardiopatia' );
 Insert into grupo_lista values (nextval('seq_grupo_lista'),'Gestante ou lactante' );
-Insert into grupo_lista values (nextval('seq_grupo_lista'),'Fumante' );
-
 
 
 
