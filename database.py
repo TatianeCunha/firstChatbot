@@ -11,17 +11,15 @@ mydb = psycopg2.connect(
 
 cursor = mydb.cursor()
 
-def insertPaciente (nome, idade, sexo, doencaCronica, alergia, cirurgia):
+def insertPaciente (nome, idade, sexo, alergia, cirurgia):
 	cursor.execute("insert into paciente values (nextval('seq_paciente'), '"
     +str(nome)+"','"
     +str(idade)+"','"    
     +str(sexo)+"','"
-    +str(doencaCronica)+"','"
     +str(alergia)+"','"
     +str(cirurgia)+ "') returning id")
 	mydb.commit()
 
-	print(cursor.rowcount, "was inserted.")
 	lastId=cursor.fetchone()
 	return lastId[0]
 
@@ -31,4 +29,8 @@ def insertSintoma (pacienteID, sintoma):
     +str(sintoma)+"')")
 	mydb.commit()
 
-	print(cursor.rowcount, "was inserted.")
+def insertGrupo (pacienteID, grupo):
+	cursor.execute("insert into grupo values (nextval('seq_grupo'), '"
+    +str(pacienteID)+"','"
+    +str(grupo)+"')")
+	mydb.commit()
